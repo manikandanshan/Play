@@ -1,0 +1,111 @@
+package controllers;
+
+/*import play.libs.F.Function;
+import play.libs.WS;
+import play.mvc.Controller;
+import play.mvc.Result;
+
+public class Application extends Controller {
+
+  public static Result feedTitle(String feedUrl) {
+    return async(
+      WS.url(feedUrl).get().map(
+        new Function<WS.Response, Result>() {
+          public Result apply(WS.Response response) {
+            return ok("Feed title:" + response.asJson().findPath("title"));
+          }
+        }
+      )
+    );
+  }
+  
+}*/
+
+/*import play.libs.F.Function;
+import play.libs.F.Promise;
+import play.libs.WS;
+import play.mvc.Controller;
+import play.mvc.Result;
+public class Application extends Controller {
+public static Promise<Result> index() {
+	
+    final Promise<Result> resultPromise = WS.url("http://www.playframework.com").get().map(
+            new Function<WS.Response, Result>() {
+                public Result apply(WS.Response response) {
+                    return ok("Feed title:");
+                	
+                }
+            }
+    );
+    return resultPromise;
+}
+}*/
+
+import akka.dispatch.ExecutionContexts;
+import model.SlicedBread;
+import play.libs.F.*;
+import play.libs.Json;
+import play.libs.WS;
+import play.mvc.Controller;
+import play.mvc.Result;
+import promise.Baker;
+import scala.concurrent.ExecutionContext;
+
+import java.util.concurrent.Executors;
+
+public class Application extends Controller {
+    private static Baker baker;
+
+    public static Promise<Result> action() {
+
+        // Order the sliced bread
+        Promise<SlicedBread> slicedBreadPromise = baker.orderSlicedBread();
+
+        // Map it to a result
+        Promise<Result> resultPromise = slicedBreadPromise.map(
+                slicedBread -> (Result) ok(Json.toJson(slicedBread))
+        );
+
+        // Return an asynchronous result
+        return resultPromise;
+    }
+
+    public static Promise<Result> wsAction() {
+
+        // Make a REST call
+        Promise<WS.Response> response = WS.url("http://baker.com/slicedBread").get();
+
+        // Map it to a result and return as an asynchronous result
+        return response.map(resp -> (Result) ok(resp.asJson()));
+    }
+
+    public static Promise<SlicedBread> orderSlicedBread() {
+
+        // Make a rest call
+        Promise<WS.Response> response = WS.url("http://baker.com/slicedBread").get();
+
+        // Convert the result to sliced bread
+        Promise<SlicedBread> result = response.map(
+                resp -> Json.fromJson(resp.asJson(), SlicedBread.class)
+        );
+
+        return result;
+    }
+
+    public static Promise<Result> backgroundAction() {
+
+        ExecutionContext ec = ExecutionContexts.fromExecutor(Executors.newSingleThreadExecutor());
+
+        // Schedule something that will take a while
+        Promise<Long> sum = Promise.promise(() -> {
+            long total = 0;
+            for (long i = 0; i < 1000000000000L; i++) {
+                total = total + i;
+            }
+            return total;
+        }, ec);
+
+        // Map it to JSON
+        return sum.map(total -> (Result) ok(Json.toJson(total)));
+    }
+}

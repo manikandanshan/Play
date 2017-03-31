@@ -1,0 +1,5 @@
+run
+cd\
+ps -aux | grep java
+run
+eclipse

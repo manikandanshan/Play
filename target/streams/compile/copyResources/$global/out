@@ -1,0 +1,4 @@
+[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/opt/play-2.2.6/myapp/conf/application.conf~,/opt/play-2.2.6/myapp/target/scala-2.10/classes/application.conf~)[0m
+[0m[[0mdebug[0m] [0m	(/opt/play-2.2.6/myapp/conf/application.conf,/opt/play-2.2.6/myapp/target/scala-2.10/classes/application.conf)[0m
+[0m[[0mdebug[0m] [0m	(/opt/play-2.2.6/myapp/conf/routes,/opt/play-2.2.6/myapp/target/scala-2.10/classes/routes)[0m
