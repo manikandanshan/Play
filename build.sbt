@@ -1,6 +1,7 @@
 name := "myapp"
 
 version := "1.0-SNAPSHOT"
+
 import com.github.play2war.plugin._
 
 libraryDependencies ++= Seq(
