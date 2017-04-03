@@ -1,8 +1,9 @@
+import com.github.play2war.plugin._
+
 name := "myapp"
 
 version := "1.0-SNAPSHOT"
 
-import com.github.play2war.plugin._
 
 libraryDependencies ++= Seq(
   "com.github.play2war" % "play2-war_2.9.1" % "0.8.2"
