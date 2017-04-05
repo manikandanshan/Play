@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
 
 Play2WarPlugin.play2WarSettings
 
-Play2WarKeys.servletVersion := "3.0"
+Play2WarKeys.servletVersion := "2.5"
 
 libraryDependencies ++= Seq(
   javaJdbc,
